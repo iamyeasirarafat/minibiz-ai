@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# minibiz-ai
 
-## Getting Started
+pnpm monorepo with a Next.js frontend, Express backend, and shared package.
 
-First, run the development server:
+## Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```text
+apps/
+  frontend/   # Next.js app (@minibiz-ai/frontend)
+  backend/    # Express API (@minibiz-ai/backend)
+packages/
+  shared/     # Shared env, config, and types (@minibiz-ai/shared)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The shared workspace package (`packages/shared`) is where env schemas, config constants, and shared TypeScript types live so both apps stay in sync.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+cp .env.example .env
+pnpm --filter @minibiz-ai/shared build
+```
 
-## Learn More
+## Develop
 
-To learn more about Next.js, take a look at the following resources:
+From the repo root:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Frontend: http://localhost:3000
+- Backend health: http://localhost:4000/api/health
 
-## Deploy on Vercel
+Individual apps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev:frontend
+pnpm dev:backend
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start frontend + backend |
+| `pnpm build` | Build shared, backend, then frontend |
+| `pnpm start` | Start production servers |
+| `pnpm lint` | Typecheck / lint workspaces |
