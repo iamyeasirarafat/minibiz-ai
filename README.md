@@ -12,33 +12,48 @@ packages/
   shared/     # Shared env, config, and types (@minibiz-ai/shared)
 ```
 
-The shared workspace package (`packages/shared`) is where env schemas, config constants, and shared TypeScript types live so both apps stay in sync.
-
 ## Setup
+
+1. Make sure local PostgreSQL is running.
+2. Copy env and add your Groq API key:
 
 ```bash
 pnpm install
 cp .env.example .env
-pnpm --filter @minibiz-ai/shared build
 ```
 
-## Develop
+Default DB URL:
 
-From the repo root:
+```text
+postgresql://postgres@localhost:5432/minibiz_ai
+```
+
+Create the database once if needed:
+
+```bash
+createdb -U postgres minibiz_ai
+```
+
+Tables are created automatically when the backend starts.
+
+## Develop
 
 ```bash
 pnpm dev
 ```
 
-- Frontend: http://localhost:3000
-- Backend health: http://localhost:4000/api/health
+- Frontend chat lab: http://localhost:3000
+- Chat API: `POST http://localhost:4000/ai/chat`
+- Health: http://localhost:4000/api/health
 
-Individual apps:
-
-```bash
-pnpm dev:frontend
-pnpm dev:backend
+```json
+{
+  "systemPrompt": "You are a concise tutor.",
+  "userMessage": "Explain tokens simply."
+}
 ```
+
+Each turn stores the conversation in PostgreSQL with input tokens, output tokens, response time, and model name.
 
 ## Scripts
 
